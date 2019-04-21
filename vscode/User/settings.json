@@ -1,0 +1,14 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "editor.fontFamily": "Hack, Consolas, 'Courier New', monospace",
+    "runner.languageMap": {
+        // ↓どちらか一つだけ使ってください
+        "c": "C:/pg/VisualCodeRunner/crun_gcc.bat"    // gccの場合
+        //"c": "C:/VisualCodeRunner/crun_vst.bat"    // VisualStudio2015の場合
+    },
+    "files.autoGuessEncoding": true,
+    "editor.renderWhitespace": "all",
+    "editor.minimap.showSlider": "always",
+    "editor.minimap.renderCharacters": false,
+    "C_Cpp.updateChannel": "Insiders"
+}
