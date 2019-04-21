@@ -1,5 +1,4 @@
 {
-    "workbench.iconTheme": "vscode-icons",
     "editor.fontFamily": "Hack, Consolas, 'Courier New', monospace",
     "runner.languageMap": {
         // ↓どちらか一つだけ使ってください
@@ -10,5 +9,6 @@
     "editor.renderWhitespace": "all",
     "editor.minimap.showSlider": "always",
     "editor.minimap.renderCharacters": false,
-    "C_Cpp.updateChannel": "Insiders"
+    "C_Cpp.updateChannel": "Insiders",
+    "workbench.iconTheme": "vscode-icons"
 }
