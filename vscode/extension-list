@@ -3,7 +3,8 @@ ms-ceintl.vscode-language-pack-ja
 ryu1kn.partial-diff
 chrmarti.regex
 mattn.runner
+formulahendry.code-runner
 vscode-icons-team.vscode-icons
 coenraads.bracket-pair-colorizer-2
 smlombardi.slime
-
+ms-python.python
