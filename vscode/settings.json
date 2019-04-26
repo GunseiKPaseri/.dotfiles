@@ -13,5 +13,7 @@
     "code-runner.clearPreviousOutput": true,
     "code-runner.runInTerminal": true,
     "workbench.colorTheme": "Slime",
-    "workbench.iconTheme": "vscode-icons"
+    "workbench.iconTheme": "vscode-icons",
+    "window.zoomLevel": 0,
+    "git.confirmSync": false
 }
