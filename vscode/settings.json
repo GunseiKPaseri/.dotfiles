@@ -12,8 +12,12 @@
     "C_Cpp.updateChannel": "Insiders",
     "code-runner.clearPreviousOutput": true,
     "code-runner.runInTerminal": true,
+
+    "omnisharp.path":"latest",
+    
     "workbench.colorTheme": "Slime",
     "workbench.iconTheme": "vscode-icons",
     "window.zoomLevel": 0,
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "git.autofetch": true
 }
