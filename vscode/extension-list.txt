@@ -1,0 +1,14 @@
+coenraads.bracket-pair-colorizer-2
+ms-vscode.cpptools
+ms-vscode.csharp
+jchannon.csharpextensions
+formulahendry.code-runner
+unity.unity-debug
+donjayamanne.githistory
+ms-ceintl.vscode-language-pack-ja
+james-yu.latex-workshop
+ryu1kn.partial-diff
+ms-python.python
+chrmarti.regex
+smlombardi.slime
+vscode-icons-team.vscode-icons
