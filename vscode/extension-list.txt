@@ -7,6 +7,7 @@ unity.unity-debug
 donjayamanne.githistory
 ms-ceintl.vscode-language-pack-ja
 james-yu.latex-workshop
+leizongmin.node-module-intellisense
 ryu1kn.partial-diff
 ms-python.python
 chrmarti.regex
