@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Hack, Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
     "files.autoGuessEncoding": true,
     "editor.renderWhitespace": "all",
     "editor.minimap.showSlider": "always",
@@ -11,7 +11,6 @@
     "omnisharp.path":"latest",
     
     "workbench.colorTheme": "Slime",
-    "workbench.iconTheme": "vscode-icons",
     "window.zoomLevel": 0,
     "git.confirmSync": false,
     "git.autofetch": true,
@@ -25,6 +24,7 @@
         "**/.DS_Store": true
     },
     "editor.wordSeparators": "./\\\\()\\\"'-:,.;<>~!@#$%^&*|+=[]{}`~?　、。「」【】『』（）！？てにをはがのともへでや",
+
 
     // https://qiita.com/popunbom/items/7d02fc75ad23b735d28c
 
@@ -142,5 +142,7 @@
     // 時間がかかってしまい、ビルドプログラムの負荷がエディタに影響するため、無効化しておく。
     "latex-workshop.latex.autoBuild.onSave.enabled": false,
     "latex-workshop.latex.autoClean.run": "onFailed",
-    "latex-workshop.latex.autoBuild.run": "never"
+    "latex-workshop.latex.autoBuild.run": "never",
+    "workbench.iconTheme": "vscode-icons",
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
 }
