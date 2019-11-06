@@ -25,6 +25,8 @@
     },
     "editor.wordSeparators": "./\\\\()\\\"'-:,.;<>~!@#$%^&*|+=[]{}`~?　、。「」【】『』（）！？てにをはがのともへでや",
 
+    //clang-format
+    "C_Cpp.clang_format_style": "{BasedOnStyle: LLVM ,SpaceBeforeParens: Never,SpaceBeforeAssignmentOperators: false,IndentWidth: 4}",
 
     // https://qiita.com/popunbom/items/7d02fc75ad23b735d28c
 
@@ -144,5 +146,20 @@
     "latex-workshop.latex.autoClean.run": "onFailed",
     "latex-workshop.latex.autoBuild.run": "never",
     "workbench.iconTheme": "vscode-icons",
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "html.format.endWithNewline": true,
+    "[c]": {
+      "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "[cpp]": {
+      "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "gitlens.views.repositories.location": "gitlens",
+    "gitlens.views.fileHistory.location": "gitlens",
+    "gitlens.views.lineHistory.location": "gitlens",
+    "gitlens.views.compare.location": "gitlens",
+    "gitlens.views.search.location": "gitlens"
 }

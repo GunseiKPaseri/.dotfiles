@@ -4,11 +4,15 @@ ms-vscode.csharp
 jchannon.csharpextensions
 formulahendry.code-runner
 unity.unity-debug
+spook.easysass
+dbaeumer.vscode-eslint
 donjayamanne.githistory
+eamodio.gitlens
 ms-ceintl.vscode-language-pack-ja
 james-yu.latex-workshop
 leizongmin.node-module-intellisense
 ryu1kn.partial-diff
+esbenp.prettier-vscode
 ms-python.python
 chrmarti.regex
 smlombardi.slime
