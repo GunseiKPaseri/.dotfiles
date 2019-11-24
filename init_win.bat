@@ -5,6 +5,8 @@ mklink "C:\Users\%USERNAME%\.vimrc" "%CD%\.vimrc"
 mklink /D "C:\Users\%USERNAME%\.vim\" "%CD%\.vim\"
 rem Latex latexmk Build設定ファイルをユーザーホームディレクトリに
 mklink "C:\Users\%USERNAME%\.latexmkrc" "%CD%\.latexmkrc"
+rem GitBash用設定
+mklink "C:\Users\%USERNAME%\.minttyrc" "%CD%\.minttyrc"
 
 rem VSCode setting.jsonの共有
 mklink "C:\Users\%USERNAME%\AppData\Roaming\Code\User\settings.json" "%CD%\vscode\settings.json"
