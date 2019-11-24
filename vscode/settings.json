@@ -147,6 +147,7 @@
     "latex-workshop.latex.autoBuild.run": "never",
     "workbench.iconTheme": "vscode-icons",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "terminal.external.windowsExec" : "C:\\Program Files\\Git\\bin\\bash.exe",
     "html.format.endWithNewline": true,
     "[c]": {
       "editor.defaultFormatter": "ms-vscode.cpptools"
@@ -161,5 +162,7 @@
     "gitlens.views.fileHistory.location": "gitlens",
     "gitlens.views.lineHistory.location": "gitlens",
     "gitlens.views.compare.location": "gitlens",
-    "gitlens.views.search.location": "gitlens"
+    "gitlens.views.search.location": "gitlens",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
 }

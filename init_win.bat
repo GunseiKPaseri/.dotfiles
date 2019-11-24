@@ -1,6 +1,8 @@
 @echo off
 rem cdを調整してから管理者権限で実行せよ
-
+rem vimrcをユーザーホームディレクトリに
+mklink "C:\Users\%USERNAME%\.vimrc" "%CD%\.vimrc"
+mklink /D "C:\Users\%USERNAME%\.vim\" "%CD%\.vim\"
 rem Latex latexmk Build設定ファイルをユーザーホームディレクトリに
 mklink "C:\Users\%USERNAME%\.latexmkrc" "%CD%\.latexmkrc"
 
