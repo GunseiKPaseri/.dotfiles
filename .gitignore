@@ -2,3 +2,5 @@
 # ワークスペースを共有しない
 vscode/User/globalStorage/
 vscode/User/workspaceStorage/
+
+desktop.ini
