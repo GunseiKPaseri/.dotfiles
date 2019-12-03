@@ -1,6 +1,6 @@
 #!/bin/sh
-ln -s ~/someconfig/.emacs.d ~/.emacs.d
-ln -s ~/someconfig/.vimrc ~/.vimrc
-ln -s ~/someconfig/7.vim ~/.vim
-ln -s ~/someconfig/.minttyrc ~/.minttyrc
+ln -sf ~/someconfig/.emacs.d ~/.emacs.d
+ln -sf ~/someconfig/.vimrc ~/.vimrc
+ln -sf ~/someconfig/7.vim ~/.vim
+ln -sf ~/someconfig/.minttyrc ~/.minttyrc
 
