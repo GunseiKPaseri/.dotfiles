@@ -59,46 +59,51 @@ set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 
-" nがインストールされるディレクトリの指定
-let s:dein_dir = expand('~/.cache/dein') "<- dein によってプラグインがインストールされるディレクトリ ##########
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+if v:version >= 800
+  " nがインストールされるディレクトリの指定
+  let s:dein_dir = expand('~/.cache/dein') "<- dein によってプラグインがインストールされるディレクトリ ##########
+  let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
  
-" deinがインストールされているかをチェック インストールされていなかったらdeinをダウンロードしてくる
-if &runtimepath !~# '/dein.vim'
- if !isdirectory(s:dein_repo_dir)
- execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
- endif
- execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
+  " deinがインストールされているかをチェック インストールされていなかったらdeinをダウンロードしてくる
+  if &runtimepath !~# '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    endif
+    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+  endif
  
-" deinの起動
-if dein#load_state(s:dein_dir)
- call dein#begin(s:dein_dir)
+  " deinの起動
+  if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
  
- " tomlファイル（使用するプラグインのリストが記述されているファイル）の場所を指定
- let g:rc_dir = expand('~/.vim/dein') "<- dein.toml dein_lazy.toml を読み込むディレクトリ ##########
- let s:toml = g:rc_dir . '/dein.toml'
- " let s:lazy_toml = g:rc_dir . '/dein_lazy.toml' "<- dein_lazy.toml を使う場合はコメント解除 ##########
+    " tomlファイル（使用するプラグインのリストが記述されているファイル）の場所を指定
+    let g:rc_dir = expand('~/.vim/dein') "<- dein.toml dein_lazy.toml を読み込むディレクトリ ##########
+    let s:toml = g:rc_dir . '/dein.toml'
+    " let s:lazy_toml = g:rc_dir . '/dein_lazy.toml' "<- dein_lazy.toml を使う場合はコメント解除 ##########
  
- " tomlファイルを読み込む
- call dein#load_toml(s:toml, {'lazy': 0})
- " call dein#load_toml(s:lazy_toml, {'lazy': 1}) "<- dein_lazy.toml を使う場合はコメント解除 ##########
+    " tomlファイルを読み込む
+    call dein#load_toml(s:toml, {'lazy': 0})
+    " call dein#load_toml(s:lazy_toml, {'lazy': 1}) "<- dein_lazy.toml を使う場合はコメント解除 ##########
  
- " 設定の終了
- call dein#end()
- call dein#save_state()
-endif
+    " 設定の終了
+    call dein#end()
+    call dein#save_state()
+   endif
  
-" プラグインのインストールをチェック 未インストールのプラグインがあればインストールする
-if dein#check_install()
- call dein#install()
+  " プラグインのインストールをチェック 未インストールのプラグインがあればインストールする
+  if dein#check_install()
+    call dein#install()
+  endif
+
+  colorscheme tender
+  set t_Co=256
+  set termguicolors
+  set background=dark
+else
+  colorscheme desert
 endif
 
-colorscheme tender
 " シンタックスハイライトの有効化
-syntax on
+syntax enable
 
-set t_Co=256
-set termguicolors
-set background=dark
-
+ 
