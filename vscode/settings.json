@@ -145,7 +145,6 @@
     "latex-workshop.latex.autoBuild.onSave.enabled": false,
     "latex-workshop.latex.autoClean.run": "onFailed",
     "latex-workshop.latex.autoBuild.run": "never",
-    "workbench.iconTheme": "vscode-icons",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "terminal.external.windowsExec" : "C:\\Program Files\\Git\\bin\\bash.exe",
     "html.format.endWithNewline": true,
@@ -164,5 +163,6 @@
     "gitlens.views.compare.location": "gitlens",
     "gitlens.views.search.location": "gitlens",
     "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.iconTheme": "vscode-icons"
 }
