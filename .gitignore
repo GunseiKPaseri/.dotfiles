@@ -4,3 +4,6 @@ vscode/User/globalStorage/
 vscode/User/workspaceStorage/
 
 desktop.ini
+
+# 生成されるシンボリックリンクは無視
+.vim/.vim
