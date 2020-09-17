@@ -1,3 +1,11 @@
+# tempfile -----
+# emacs
+.\#*
+
+# backup file ---
+*~
+*.orig
+*.bak
 
 # ワークスペースを共有しない
 vscode/User/globalStorage/
