@@ -26,6 +26,11 @@
 ;; メニューバーを非表示
 (menu-bar-mode 0)
 
+;; 行番号の表示
+(global-linum-mode t)
+;; 列番号の表示
+(column-number-mode t)
+
 ;; 現在ポイントがある関数名をモードラインに表示
 (which-function-mode 1)
 

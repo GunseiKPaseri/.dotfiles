@@ -1,5 +1,6 @@
 " setting
 " 文字コードをUTF-8に設定
+set encoding=utf-8
 set fenc=utf-8
 " バックアップファイルを作らない
 set noswapfile
@@ -15,14 +16,16 @@ set clipboard=unnamedplus
 " 見た目系
 " 行番号を表示
 set number
+" 現在の列を強調表示
+set cursorline
 " 現在の行を強調表示
 set cursorcolumn
 " 行末の1文字先までカーソルを移動できるように
 set virtualedit=onemore
 " インデントはスマートインデント
 set smartindent
-" ビープ音を可視化
-set visualbell
+" ビープ音・点滅を削除
+set visualbell t_vb=
 " 括弧入力時の対応する括弧を表示
 set showmatch
 " ステータスラインを常に表示
@@ -33,6 +36,9 @@ set wildmode=list:longest
 nnoremap j gj
 nnoremap k gk
 
+" ※などのカーソル位置を正常に扱えるように
+" set ambiwidth=double
+set formatoptions+=mMj
 " Tab系
 " 不可視文字を可視化(タブが">-"と表示される)
 set list listchars=tab:\>\-
