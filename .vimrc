@@ -64,6 +64,9 @@ set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
+augroup MyAutoCmd
+  autocmd!
+augroup eEND
 
 if v:version >= 800
   " nがインストールされるディレクトリの指定
@@ -101,7 +104,6 @@ if v:version >= 800
     call dein#install()
   endif
 
-  colorscheme tender
   set t_Co=256
   set termguicolors
   set background=dark

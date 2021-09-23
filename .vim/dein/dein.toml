@@ -1,3 +1,6 @@
 [[plugins]]
 repo = 'jacoborus/tender.vim'
+hook_add = '''
+  au MyAutoCmd VimEnter * nested colorscheme tender
+'''
 
