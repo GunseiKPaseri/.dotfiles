@@ -86,6 +86,7 @@ COUNTER=`expr $COUNTER + 1`
 sudo apt-fast install -y python3-pip
 pip3 install --upgrade pip
 export PATH="$PATH:$HOME/.local/bin"
+echo "export PATH=\"$PATH:$HOME/.local/bin\"" >> ~/.bashrc
 
 set -x
 sudo apt-fast install -y python3-setuptools
@@ -124,11 +125,17 @@ case "${YN_SELECTOR}" in
         ;;
 esac
 
-# == [TODO] CLONE git ===
+# == CLONE dotfiles.git ===
 
-printf "[${COUNTER}/${STEP_COUNT}] SKIP clone dotfiles\n"
+printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}CLONE dotfiles.git${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
-# git clone ~~~~~
+
+set -x
+cd ~
+sudo rm -rf ./dotfiles
+git clone https://github.com/GunseiKPaseri/dotfiles.git
+bash ./dotfiles/dots_linux.sh
+{ set +x ; } 2>/dev/null
 
 # === INSTALL vim ===
 bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
@@ -177,3 +184,4 @@ curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fi
 
 COUNTER=`expr $COUNTER + 1`
 
+source ~/.bash_profile
