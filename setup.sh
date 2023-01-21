@@ -35,8 +35,8 @@ sudo apt-get upgrade -y
 set +x
 
 # === INSTALL apt-fast
-which apt-fast >/dev/null 2>&1
-if [ $? -eq 0]; then
+bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
+if [ EXIST_CMD -eq 0]; then
     printf "[${COUNTER}/${STEP_COUNT}] SKIP INSTALL apt-fast\n"
 else
     printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}INSTALL apt-fast${COLOR_OFF}\n"
@@ -70,7 +70,7 @@ printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}Set needrestart${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
 
 YN_SELECTOR=""
-read -p "${COLOR_YELLOW}Hide "Which services should be restarted?"? (y/N): ${COLOR_OFF}" YN_SELECTOR
+read -p "${COLOR_YELLOW}Hide \"Which services should be restarted?\"? (y/N): ${COLOR_OFF}" YN_SELECTOR
 case "${YN_SELECTOR}" in
     [Yy]* )
         set -x
@@ -133,8 +133,8 @@ COUNTER=`expr $COUNTER + 1`
 # git clone ~~~~~
 
 # === INSTALL vim ===
-which vim >/dev/null 2>&1
-if [ $? -eq 0]; then
+bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
+if [ EXIST_CMD -eq 0]; then
     printf "[${COUNTER}/${STEP_COUNT}] SKIP INSTALL vim\n"
 else
     printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}INSTALL vim${COLOR_OFF}\n"
@@ -145,8 +145,8 @@ fi
 COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL tmux ===
-which tmux >/dev/null 2>&1
-if [ $? -eq 0]; then
+bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
+if [ EXIST_CMD -eq 0]; then
     printf "[${COUNTER}/${STEP_COUNT}] SKIP INSTALL tmux\n"
 else
     printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}INSTALL tmux${COLOR_OFF}\n"
@@ -157,8 +157,8 @@ fi
 COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fish ===
-which fish >/dev/null 2>&1
-if [ $? -eq 0]; then
+bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
+if [ EXIST_CMD -eq 0]; then
     printf "[${COUNTER}/${STEP_COUNT}] SKIP INSTALL fish\n"
 else
     printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}INSTALL fish${COLOR_OFF}\n"

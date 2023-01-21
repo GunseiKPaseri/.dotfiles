@@ -1,5 +1,9 @@
 # install
 
+```sh
+bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/main/setup.sh )"
+```
+
 ## ubuntu
 
 - [ ] `LANG=C xdg-user-dirs-gtk-update`
