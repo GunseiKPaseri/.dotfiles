@@ -1,1 +1,0 @@
-/home/paseri/someconfig/.emacs.d

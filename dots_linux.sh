@@ -1,9 +1,8 @@
 #!/bin/sh
 
-ln -sf ~/someconfig/.emacs.d ~/.emacs.d
-ln -sf ~/someconfig/.vimrc ~/.vimrc
+ln -sf ~/dotfiles/d/.vimrc ~/.vimrc
 # confirm delete .vim
-ln -sf ~/someconfig/.vim ~/.vim
-ln -sf ~/someconfig/.minttyrc ~/.minttyrc
-#ln -sf ~/someconfig/vscode/settings.json ~/.config/Code/User/settings.json
-ln -sf ~/someconfig/.bash_profile ~/.bash_profile
+ln -sf ~/dotfiles/d/.vim ~/.vim
+ln -sf ~/dotfiles/d/.minttyrc ~/.minttyrc
+#ln -sf ~/dotfiles/d/vscode/settings.json ~/.config/Code/User/settings.json
+ln -sf ~/dotfiles/d/.bash_profile ~/.bash_profile

@@ -85,10 +85,12 @@ esac
 printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}INSTALL apt-select${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
 
+set -x
 sudo apt-fast install -y python3-pip
 pip3 install --upgrade pip
 export PATH="$PATH:$HOME/.local/bin"
 echo "export PATH=\"$PATH:$HOME/.local/bin\"" >> ~/.bashrc
+{ set +x ; } 2>/dev/null
 
 set -x
 sudo apt-fast install -y python3-setuptools
