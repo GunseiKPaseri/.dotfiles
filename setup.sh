@@ -54,7 +54,8 @@ printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}Set Japanese${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
 
 YN_SELECTOR=""
-read "${COLOR_YELLOW}SET JAPANESE? (y/N): ${COLOR_OFF}" YN_SELECTOR
+printf "${COLOR_YELLOW}SET JAPANESE? (y/N): ${COLOR_OFF}"
+read -p YN_SELECTOR
 
 case "${YN_SELECTOR}" in
     [Yy]* )
@@ -70,7 +71,8 @@ printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}Set needrestart${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
 
 YN_SELECTOR=""
-read "${COLOR_YELLOW}Hide \"Which services should be restarted?\"? (y/N): ${COLOR_OFF}" YN_SELECTOR
+printf "${COLOR_YELLOW}Hide \"Which services should be restarted?\"? (y/N): ${COLOR_OFF}"
+read -p YN_SELECTOR
 case "${YN_SELECTOR}" in
     [Yy]* )
         set -x
@@ -115,13 +117,15 @@ COUNTER=`expr $COUNTER + 1`
 set -x
 sudo apt-fast install git
 { set +x ; } 2>/dev/null
-read "${COLOR_YELLOW}GEN SSH KEY? (y/N): ${COLOR_OFF}" YN_SELECTOR
+printf "${COLOR_YELLOW}GEN SSH KEY? (y/N): ${COLOR_OFF}"
+read -p YN_SELECTOR
 case "${YN_SELECTOR}" in
     [Yy]* )
         set -x
         ssh-keygen -t ed25519
         { set +x ; } 2>/dev/null
-        read "${COLOR_YELLOW}GENERATED SSH KEY! [PressEnter]${COLOR_OFF}" YN_SELECTOR
+        printf "${COLOR_YELLOW}GENERATED SSH KEY! [PressEnter]${COLOR_OFF}"
+        read -p YN_SELECTOR
         ;;
 esac
 
