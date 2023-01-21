@@ -18,7 +18,7 @@ COLOR_OFF="${ESC}${ESCEND}"
 
 # === SET APT SERVER FIRST TIME
 
-printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}SET apt server to Yamaga Univ first time.${COLOR_OFF}\n"
+printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}SET apt server to Yamagata Univ first time.${COLOR_OFF}\n"
 COUNTER=`expr $COUNTER + 1`
 
 set -x
@@ -55,7 +55,7 @@ COUNTER=`expr $COUNTER + 1`
 
 YN_SELECTOR=""
 printf "${COLOR_YELLOW}SET JAPANESE? (y/N): ${COLOR_OFF}"
-read -p YN_SELECTOR
+read YN_SELECTOR
 
 case "${YN_SELECTOR}" in
     [Yy]* )
@@ -72,7 +72,7 @@ COUNTER=`expr $COUNTER + 1`
 
 YN_SELECTOR=""
 printf "${COLOR_YELLOW}Hide \"Which services should be restarted?\"? (y/N): ${COLOR_OFF}"
-read -p YN_SELECTOR
+read YN_SELECTOR
 case "${YN_SELECTOR}" in
     [Yy]* )
         set -x
@@ -118,14 +118,14 @@ set -x
 sudo apt-fast install git
 { set +x ; } 2>/dev/null
 printf "${COLOR_YELLOW}GEN SSH KEY? (y/N): ${COLOR_OFF}"
-read -p YN_SELECTOR
+read YN_SELECTOR
 case "${YN_SELECTOR}" in
     [Yy]* )
         set -x
         ssh-keygen -t ed25519
         { set +x ; } 2>/dev/null
         printf "${COLOR_YELLOW}GENERATED SSH KEY! [PressEnter]${COLOR_OFF}"
-        read -p YN_SELECTOR
+        read YN_SELECTOR
         ;;
 esac
 
