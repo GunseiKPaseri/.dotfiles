@@ -42,7 +42,7 @@ MSG="SET apt server to Yamagata Univ first time."
 
 if [$MODE -le 0]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-then
+else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   set -x
@@ -58,7 +58,7 @@ MSG="apt update && apt upgrade"
 
 if [$MODE -le 0]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-then
+else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
   sudo apt-get update
