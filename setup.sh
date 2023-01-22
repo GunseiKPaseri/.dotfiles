@@ -21,7 +21,7 @@ COLOR_OFF="${ESC}${ESCEND}"
 MODE_SELECTOR=""
 while :
 do
-  printf "${COLOR_YELLOW}SELECT MODE\"? [withoutsudo/full]: ${COLOR_OFF}"
+  printf "${COLOR_YELLOW}SELECT MODE [withoutsudo/full]: ${COLOR_OFF}"
   read MODE_SELECTOR
   case "${MODE_SELECTOR}" in
     "withoutsudo" )
@@ -74,7 +74,7 @@ MSG="Hide needrestart"
 bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -ne 0 ]; then
+elif [ $EXIST_CMD -ne 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (No command needrestart)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -97,7 +97,7 @@ MSG="INSTALL apt-fast"
 bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0 ]; then
+elif [ $EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -139,7 +139,7 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ EXIST_CMD -ne 0 ]; then
+  if [ $EXIST_CMD -ne 0 ]; then
     sudo apt-fast install -y python3-pip
     pip3 install --upgrade pip
     export PATH="$PATH:$HOME/.local/bin"
@@ -198,7 +198,7 @@ COUNTER=`expr $COUNTER + 1`
 MSG="CLONE dotfiles.git"
 
 bash -c "which git >/dev/null 2>&1" || EXIST_CMD=$?
-if [ EXIST_CMD -ne 0 ]; then
+if [ $EXIST_CMD -ne 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -217,7 +217,7 @@ MSG="INSTALL vim"
 bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0 ]; then
+elif [ $EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -240,7 +240,7 @@ MSG="INSTALL tmux"
 bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0 ]; then
+elif [ $EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -256,7 +256,7 @@ MSG="INSTALL fish"
 bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0 ]; then
+elif [ $EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
