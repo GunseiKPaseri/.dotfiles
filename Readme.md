@@ -1,6 +1,7 @@
 # install
 
 おおよそ以下で動作する
+
 ```sh
 bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/main/setup.sh )"
 ```
