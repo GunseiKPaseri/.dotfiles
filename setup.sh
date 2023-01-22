@@ -131,13 +131,20 @@ fi
 
 COUNTER=`expr $COUNTER + 1`
 
-# === INSTALL python & apt-selector [sudo] ===
-MSG="INSTALL apt-select"
+# === INSTALL pip3 & apt-selector [sudo] ===
+MSG="INSTALL pip3 && apt-select"
 if [$MODE -le 0]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
+  bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
+  if [ EXIST_CMD -ne 0]; then
+    sudo apt-fast install -y python3-pip
+    pip3 install --upgrade pip
+    export PATH="$PATH:$HOME/.local/bin"
+    echo "export PATH=\"$$PATH:$$HOME/.local/bin\"" >> ~/.bashrc
+  fi
   set -x
   # install python tool
   sudo apt-fast install -y python3-setuptools
@@ -214,9 +221,16 @@ elif [ EXIST_CMD -eq 0]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  set -x
-  sudo apt-fast install -y vim-gtk3
-  { set +x ; } 2>/dev/null
+  bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
+  if [ EXIST_CMD -eq 0]; then
+    set -x
+    sudo apt-fast install -y vim-gnome
+    { set +x ; } 2>/dev/null
+  else
+    set -x
+    sudo apt-fast install -y vim-gtk3
+    { set +x ; } 2>/dev/null
+  fi
 fi
 
 COUNTER=`expr $COUNTER + 1`
