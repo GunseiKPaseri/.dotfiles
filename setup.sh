@@ -40,7 +40,7 @@ done
 # === SET APT SERVER FIRST TIME [sudo]
 MSG="SET apt server to Yamagata Univ first time."
 
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -56,7 +56,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT UPDATE [sudo] ===
 MSG="apt update && apt upgrade"
 
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -72,9 +72,9 @@ COUNTER=`expr $COUNTER + 1`
 MSG="Hide needrestart"
 
 bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -ne 0]; then
+elif [ EXIST_CMD -ne 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (No command needrestart)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -95,9 +95,9 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL apt-fast [sudo] ===
 MSG="INSTALL apt-fast"
 bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0]; then
+elif [ EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -112,7 +112,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === Select Japanese [sudo] ===
 MSG="Set Japanese"
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -133,13 +133,13 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL pip3 & apt-selector [sudo] ===
 MSG="INSTALL pip3 && apt-select"
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ EXIST_CMD -ne 0]; then
+  if [ EXIST_CMD -ne 0 ]; then
     sudo apt-fast install -y python3-pip
     pip3 install --upgrade pip
     export PATH="$PATH:$HOME/.local/bin"
@@ -171,7 +171,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL git [sudo] ===
 MSG="INSTALL git"
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -198,7 +198,7 @@ COUNTER=`expr $COUNTER + 1`
 MSG="CLONE dotfiles.git"
 
 bash -c "which git >/dev/null 2>&1" || EXIST_CMD=$?
-if [ EXIST_CMD -ne 0]; then
+if [ EXIST_CMD -ne 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -215,14 +215,14 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL vim ===
 MSG="INSTALL vim"
 bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0]; then
+elif [ EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ EXIST_CMD -eq 0]; then
+  if [ EXIST_CMD -eq 0 ]; then
     set -x
     sudo apt-fast install -y vim-gnome
     { set +x ; } 2>/dev/null
@@ -238,9 +238,9 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL tmux ===
 MSG="INSTALL tmux"
 bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0]; then
+elif [ EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -254,9 +254,9 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL fish ===
 MSG="INSTALL fish"
 bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
-if [$MODE -le 0]; then
+if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ EXIST_CMD -eq 0]; then
+elif [ EXIST_CMD -eq 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
