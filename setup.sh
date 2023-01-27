@@ -71,7 +71,7 @@ COUNTER=`expr $COUNTER + 1`
 # === set hide needrestart [sudo] ===
 MSG="Hide needrestart"
 
-bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -eq 1 ]; then
@@ -94,7 +94,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL apt-fast [sudo] ===
 MSG="INSTALL apt-fast"
-bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
@@ -141,7 +141,7 @@ if [ $MODE -le 0 ]; then
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
-  bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
+  EXIST_CMD="" && bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
   if [ $EXIST_CMD -eq 1 ]; then
     sudo apt-fast install -y python3-pip
     pip3 install --upgrade pip
@@ -200,7 +200,7 @@ COUNTER=`expr $COUNTER + 1`
 # == CLONE dotfiles.git ===
 MSG="CLONE dotfiles.git"
 
-bash -c "which git >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which git >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $EXIST_CMD -eq 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
 else
@@ -217,14 +217,14 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL vim ===
 MSG="INSTALL vim"
-bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -eq 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
+  EXIST_CMD="" && bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
   if [ $EXIST_CMD -ne 1 ]; then
     set -x
     sudo apt-fast install -y vim-gnome
@@ -240,7 +240,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL tmux ===
 MSG="INSTALL tmux"
-bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
@@ -256,7 +256,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fish ===
 MSG="INSTALL fish"
-bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
@@ -275,7 +275,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL asdf ===
 
 MSG="INSTALL asdf"
-bash -c "which asdf >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which asdf >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
@@ -294,7 +294,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL docker ===
 
 MSG="INSTALL docker"
-bash -c "which docker >/dev/null 2>&1" || EXIST_CMD=$?
+EXIST_CMD="" && bash -c "which docker >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
