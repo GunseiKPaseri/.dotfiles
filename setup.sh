@@ -5,8 +5,13 @@ set -e # stop with a error
 set -u # forbidden undefined vars
 
 # === STEP CONFIG ===
-STEP_COUNT=15
+STEP_COUNT=17
 COUNTER=1
+
+set -x
+TMPDIR=/tmp/dotfiles
+mkdir -p $TMPDIR
+{ set +x ; } 2>/dev/null
 
 # === COLOR CONFIG ===
 ESC="\e["
@@ -146,7 +151,7 @@ else
     sudo apt-fast install -y python3-pip
     pip3 install --upgrade pip
     export PATH="$PATH:$HOME/.local/bin"
-    echo "export PATH=\"$$PATH:$$HOME/.local/bin\"" >> ~/.bashrc
+    echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> $HOME/.bashrc
   fi
   set -x
   # install python tool
@@ -171,6 +176,18 @@ else
 fi
 
 COUNTER=`expr $COUNTER + 1`
+
+# === INSTALL build-essential [sudo] ===
+MSG="INSTALL build-essential"
+if [ $MODE -le 0 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+
+  set -x
+  sudo apt-fast install -y build-essential
+fi
+
 
 # === INSTALL git [sudo] ===
 MSG="INSTALL git"
@@ -211,6 +228,21 @@ else
   git clone https://github.com/GunseiKPaseri/dotfiles.git
   bash ./dotfiles/dots_linux.sh
   { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# === INSTALL brew [sudo] ===
+MSG="INSTALL brew"
+EXIST_CMD="" && bash -c "which brew >/dev/null 2>&1" || EXIST_CMD=$?
+if [ $EXIST_CMD -eq 1 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo '# Set PATH, MANPATH, etc., for Homebrew.\n' >> $HOME/.profile
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 COUNTER=`expr $COUNTER + 1`
@@ -284,7 +316,12 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
 
-  # skip
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
+  # fish config
+  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/config.fish
+  
+  # fish completions
+  mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 
   { set +x ; } 2>/dev/null
 fi
@@ -330,11 +367,76 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fisher ===
 MSG="INSTALL fisher(fish package manager)"
+EXIST_CMD="" && bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
+if [ $EXIST_CMD -ne 1 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need fish)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  fish -c "curl -sL git.io/fisher | source && fisher update"
+  { set +x ; } 2>/dev/null
 
-printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-set -x
-curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-{ set +x ; } 2>/dev/null
+  # === INSTALL bobthefish ===
+
+  FISHMODE_SELECTOR=""
+  while :
+  do
+    printf "${COLOR_YELLOW}SELECT fish font mode\n"
+    printf "    default : ~> \n"
+    printf "    nerd    : ~ \n"
+    printf "${COLOR_YELLOW}[default/nerd]: ${COLOR_OFF}"
+    read FISHMODE_SELECTOR
+    case "${FISHMODE_SELECTOR}" in
+      "default" )
+        break
+        ;;
+      "nerd" )
+        YN_SELECTOR=""
+        printf "${COLOR_YELLOW}install font? (if you access via ssh, needn't)[y/N]: ${COLOR_OFF}"
+        read YN_SELECTOR
+        case "${YN_SELECTOR}" in
+          [Yy]* )
+            set -x
+            sudo apt-fast install -y unzip
+            curl -L --output "$TMPDIR/HackGen.zip" https://github.com/yuru7/HackGen/releases/download/v2.8.0/HackGen_NF_v2.8.0.zip
+            unzip $TMPDIR/HackGen.zip -d $TMPDIR/HackGen
+            mkdir -p $HOME/.local/share/fonts
+            cp $TMPDIR/HackGen/HackGen_NF_v2.8.0/*.ttf $HOME/.local/share/fonts
+            { set +x ; } 2>/dev/null
+            ;;
+        esac
+
+        printf "${COLOR_CYAN}Install bobthefish${COLOR_OFF}\n"
+        set -x
+        fish -c "fisher install oh-my-fish/theme-bobthefish"
+        { set +x ; } 2>/dev/null
+        break
+        ;;
+    esac
+  done
+
+  # === INSTALL peco ===
+
+  EXIST_CMD="" && bash -c "which brew >/dev/null 2>&1" || EXIST_CMD=$?
+  if [ $EXIST_CMD -ne 1 ]; then
+    printf "Skip Install peco (need brew)\n"
+  else
+    printf "${COLOR_CYAN}Install peco${COLOR_OFF}\n"
+    set -x
+    brew install peco
+    fish -c "fisher install oh-my-fish/plugin-peco"
+    { set +x ; } 2>/dev/null
+  fi
+
+  # === plugin ===
+  sudo apt-fast install -y tar unrar zip gzip
+  fish -c "fisher install oh-my-fish/plugin-extract"
+
+  fish -c "fisher install gitignore"
+
+  fish -c "fisher install spin"
+
+fi
 
 COUNTER=`expr $COUNTER + 1`
 
@@ -349,5 +451,8 @@ else
   sudo apt autoremove -y
   { set +x ; } 2>/dev/null
 fi
+set -x
+rm -rf $TMPDIR
+{ set +x ; } 2>/dev/null
 # === set thisfile ===
-source ~/.bash_profile
+source $HOME/.bash_profile
