@@ -47,7 +47,7 @@ else
 
   set -x
   sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
-  sudo sed -i.bak -r 's@http://((jp\|us\|fr)\.)?archive\.ubuntu\.com/ubuntu/?@https://linux.yz.yamagata-u.ac.jp/ubuntu/@g' /etc/apt/sources.list
+  sudo sed -i.bak -r 's@http://([a-z]{2}\.)?archive\.ubuntu\.com/ubuntu/?@https://linux.yz.yamagata-u.ac.jp/ubuntu/@g' /etc/apt/sources.list
   { set +x ; } 2>/dev/null
 fi
 
@@ -315,7 +315,7 @@ else
     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo chmod a+r /etc/apt/keyrings/docker.gpg
   sudo apt-fast update
-  sudo apt-fast install \
+  sudo apt-fast install -y \
     docker-ce \
     docker-ce-cli \
     containerd.io \
@@ -346,7 +346,7 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   set -x
-  sudo apt autoremove
+  sudo apt autoremove -y
   { set +x ; } 2>/dev/null
 fi
 # === set thisfile ===
