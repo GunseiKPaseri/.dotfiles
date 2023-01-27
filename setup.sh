@@ -313,10 +313,15 @@ else
   echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
-  . "$HOME/.asdf/asdf.sh"
-  echo ". \"$$HOME/.asdf/completions/asdf.bash\"" > ~/.bashrc
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  sudo apt-fast update
+  sudo apt-fast install \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-compose-plugin
+
+  sudo docker run hello-world
 
   { set +x ; } 2>/dev/null
 fi
