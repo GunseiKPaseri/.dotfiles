@@ -59,7 +59,7 @@ fi
 COUNTER=`expr $COUNTER + 1`
 
 # === APT UPDATE [sudo] ===
-MSG="apt update && apt upgrade"
+MSG="apt update"
 
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
@@ -67,7 +67,44 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
   sudo apt-get update
-  sudo apt-get upgrade -y
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# === INSTALL apt-fast [sudo] ===
+MSG="INSTALL apt-fast"
+EXIST_CMD="" && bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
+if [ $MODE -le 0 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+elif [ $EXIST_CMD -ne 1 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+
+  set -x
+  sudo add-apt-repository ppa:apt-fast/stable -y
+  sudo apt-get update
+  sudo apt-get -y install apt-fast
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# === APT INSTALL CORE [sudo] ===
+MSG="apt install core package"
+
+if [ $MODE -le 0 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  sudo apt-fast -y install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+  sudo apt-fast -y install apt-transport-https
   { set +x ; } 2>/dev/null
 fi
 
@@ -97,23 +134,21 @@ else
 fi
 COUNTER=`expr $COUNTER + 1`
 
-# === INSTALL apt-fast [sudo] ===
-MSG="INSTALL apt-fast"
-EXIST_CMD="" && bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
+# === APT UPGRADE [sudo] ===
+MSG="apt upgrade"
+
 if [ $MODE -le 0 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-
   set -x
-  sudo add-apt-repository ppa:apt-fast/stable -y
-  sudo apt-get update
-  sudo apt-get -y install apt-fast
+  sudo apt-fast -y upgrade
+  sudo apt-fast -y clean
   { set +x ; } 2>/dev/null
 fi
+
 COUNTER=`expr $COUNTER + 1`
+
 
 # === Select Japanese [sudo] ===
 MSG="Set Japanese"
@@ -127,17 +162,45 @@ else
   case "${YN_SELECTOR}" in
     [Yy]* )
       set -x
-      sudo apt-fast install -y \
+      sudo apt-fast -y install \
         language-pack-ja \
         manpages-ja \
         manpages-ja-dev
+      sudo timedatectl set-timezone Asia/Tokyo
+      export LANG=ja_JP.UTF-8 
+      export LC_ALL=ja_JP.UTF-8 
+      export LANGUAGE=ja_JP.UTF-8 
+      sudo sed -i 's/# ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/g' /etc/locale.gen
+      sudo locale-gen
       sudo update-locale LANG=ja_JP.UTF-8
+      sudo dpkg-reconfigure -f noninteractive locales 
+      sudo /usr/sbin/update-locale LANG=$LANG LC_ALL=$LANG
+      sudo apt-fast -y install language-selector-common
+      sudo apt-fast -y install $(check-language-support)
+      sudo apt -y install xdg-user-dirs-gtk 
+      LANG=C LC_ALL=C xdg-user-dirs-gtk-update
       { set +x ; } 2>/dev/null
       ;;
   esac
 fi
 
 COUNTER=`expr $COUNTER + 1`
+
+# === Set NTP ===
+
+MSG="Set NTP"
+
+if [ $MODE -le 0 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  sudo apt-fast -y install ntp
+  sudo apt-fast -y install ntpdate
+  sudo apt-fast -y install tzdata
+  sudo service ntp stop
+  sudo /usr/sbin/ntpdate ntp.nict.jp
+  sudo /usr/sbin/service ntp start
+fi
 
 # === INSTALL pip3 & apt-selector [sudo] ===
 MSG="INSTALL pip3 && apt-select"
@@ -148,14 +211,14 @@ else
 
   EXIST_CMD="" && bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
   if [ $EXIST_CMD -eq 1 ]; then
-    sudo apt-fast install -y python3-pip
+    sudo apt-fast -y install python3-pip
     pip3 install --upgrade pip
     export PATH="$PATH:$HOME/.local/bin"
     echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> $HOME/.bashrc
   fi
   set -x
   # install python tool
-  sudo apt-fast install -y python3-setuptools
+  sudo apt-fast -y install python3-setuptools
   # run python
   pip3 install apt-select
 
@@ -185,7 +248,7 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   set -x
-  sudo apt-fast install -y build-essential
+  sudo apt-fast -y install build-essential
 fi
 
 
@@ -197,7 +260,7 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   set -x
-  sudo apt-fast install -y git
+  sudo apt-fast -y install git
   { set +x ; } 2>/dev/null
   printf "${COLOR_YELLOW}GEN SSH KEY? (y/N): ${COLOR_OFF}"
   read YN_SELECTOR
@@ -259,11 +322,11 @@ else
   EXIST_CMD="" && bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
   if [ $EXIST_CMD -ne 1 ]; then
     set -x
-    sudo apt-fast install -y vim-gnome
+    sudo apt-fast -y install vim-gnome
     { set +x ; } 2>/dev/null
   else
     set -x
-    sudo apt-fast install -y vim-gtk3
+    sudo apt-fast -y install vim-gtk3
     { set +x ; } 2>/dev/null
   fi
 fi
@@ -280,7 +343,7 @@ elif [ $EXIST_CMD -ne 1 ]; then
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
-  sudo apt-fast install -y tmux
+  sudo apt-fast -y install tmux
   { set +x ; } 2>/dev/null
 fi
 
@@ -298,7 +361,7 @@ else
   set -x
   sudo add-apt-repository ppa:fish-shell/release-3 -y
   sudo apt-fast update
-  sudo apt-fast install -y fish
+  sudo apt-fast -y install fish
   { set +x ; } 2>/dev/null
 fi
 
@@ -340,7 +403,7 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
 
-  sudo apt-fast install -y \
+  sudo apt-fast -y install \
     ca-certificates \
     curl \
     gnupg \
@@ -352,7 +415,7 @@ else
     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo chmod a+r /etc/apt/keyrings/docker.gpg
   sudo apt-fast update
-  sudo apt-fast install -y \
+  sudo apt-fast -y install \
     docker-ce \
     docker-ce-cli \
     containerd.io \
@@ -383,7 +446,7 @@ else
   do
     printf "${COLOR_YELLOW}SELECT fish font mode\n"
     printf "    default : ~> \n"
-    printf "    nerd    : ~ \n"
+    printf "    nerd    : ~  (~|>)\n"
     printf "${COLOR_YELLOW}[default/nerd]: ${COLOR_OFF}"
     read FISHMODE_SELECTOR
     case "${FISHMODE_SELECTOR}" in
@@ -397,7 +460,7 @@ else
         case "${YN_SELECTOR}" in
           [Yy]* )
             set -x
-            sudo apt-fast install -y unzip
+            sudo apt-fast -y install unzip
             curl -L --output "$TMPDIR/HackGen.zip" https://github.com/yuru7/HackGen/releases/download/v2.8.0/HackGen_NF_v2.8.0.zip
             unzip $TMPDIR/HackGen.zip -d $TMPDIR/HackGen
             mkdir -p $HOME/.local/share/fonts
@@ -429,7 +492,7 @@ else
   fi
 
   # === plugin ===
-  sudo apt-fast install -y tar unrar zip gzip
+  sudo apt-fast -y install tar unrar zip gzip
   fish -c "fisher install oh-my-fish/plugin-extract"
 
   fish -c "fisher install gitignore"
@@ -448,7 +511,8 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
   set -x
-  sudo apt autoremove -y
+  sudo apt-fast -y autoremove
+  sudo apt-fast -y clean
   { set +x ; } 2>/dev/null
 fi
 set -x

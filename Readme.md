@@ -9,7 +9,8 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/
 
 動作確認
 
-- ubuntu(server) 22.0.1
+- ubuntu(Server) 22.04.1
+- ubuntu(Desktop) 22.04
 
 ## ubuntu
 
