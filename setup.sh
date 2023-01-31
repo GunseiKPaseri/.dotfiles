@@ -5,7 +5,7 @@ set -e # stop with a error
 set -u # forbidden undefined vars
 
 # === STEP CONFIG ===
-STEP_COUNT=17
+STEP_COUNT=18
 COUNTER=1
 
 set -x
@@ -24,18 +24,26 @@ COLOR_OFF="${ESC}${ESCEND}"
 # === SELECT MODE
 
 MODE_SELECTOR=""
+MODE_WITHOUTSUDO=0
+MODE_ESSENTIAL=1
+MODE_FULL=2
 while :
 do
-  printf "${COLOR_YELLOW}SELECT MODE [withoutsudo/full]: ${COLOR_OFF}"
+  printf "${COLOR_YELLOW}SELECT MODE [withoutsudo/essential/full]: ${COLOR_OFF}"
   read MODE_SELECTOR
   case "${MODE_SELECTOR}" in
     "withoutsudo" )
-      MODE=0
+      MODE=MODE_WITHOUTSUDO
       printf "${COLOR_CYAN}Run only tasks that do not require sudo.${COLOR_OFF}\n"
       break
       ;;
+    "essential" )
+      MODE=MODE_ESSENTIAL
+      printf "${COLOR_CYAN}Run essential tasks.${COLOR_OFF}\n"
+      break
+      ;;
     "full" )
-      MODE=1
+      MODE=MODE_FULL
       printf "${COLOR_CYAN}Run all tasks.${COLOR_OFF}\n"
       break
       ;;
@@ -45,7 +53,7 @@ done
 # === SET APT SERVER FIRST TIME [sudo]
 MSG="SET apt server to Yamagata Univ first time."
 
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -61,7 +69,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT UPDATE [sudo] ===
 MSG="apt update"
 
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -75,7 +83,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL apt-fast [sudo] ===
 MSG="INSTALL apt-fast"
 EXIST_CMD="" && bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
@@ -94,7 +102,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT INSTALL CORE [sudo] ===
 MSG="apt install core package"
 
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -110,11 +118,26 @@ fi
 
 COUNTER=`expr $COUNTER + 1`
 
+# === APT UPGRADE [sudo] ===
+MSG="apt upgrade"
+
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  sudo apt-fast -y upgrade
+  sudo apt-fast -y clean
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
 # === set hide needrestart [sudo] ===
 MSG="Hide needrestart"
 
 EXIST_CMD="" && bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -eq 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (No command needrestart)\n"
@@ -134,25 +157,9 @@ else
 fi
 COUNTER=`expr $COUNTER + 1`
 
-# === APT UPGRADE [sudo] ===
-MSG="apt upgrade"
-
-if [ $MODE -le 0 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-else
-  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  set -x
-  sudo apt-fast -y upgrade
-  sudo apt-fast -y clean
-  { set +x ; } 2>/dev/null
-fi
-
-COUNTER=`expr $COUNTER + 1`
-
-
 # === Select Japanese [sudo] ===
 MSG="Set Japanese"
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -190,7 +197,7 @@ COUNTER=`expr $COUNTER + 1`
 
 MSG="Set NTP"
 
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -204,7 +211,7 @@ fi
 
 # === INSTALL pip3 & apt-selector [sudo] ===
 MSG="INSTALL pip3 && apt-select"
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -242,7 +249,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL build-essential [sudo] ===
 MSG="INSTALL build-essential"
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -251,10 +258,9 @@ else
   sudo apt-fast -y install build-essential
 fi
 
-
 # === INSTALL git [sudo] ===
 MSG="INSTALL git"
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -313,7 +319,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL vim ===
 MSG="INSTALL vim"
 EXIST_CMD="" && bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -eq 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
@@ -336,7 +342,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL tmux ===
 MSG="INSTALL tmux"
 EXIST_CMD="" && bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
@@ -352,7 +358,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL fish ===
 MSG="INSTALL fish"
 EXIST_CMD="" && bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif [ $EXIST_CMD -ne 1 ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
@@ -362,67 +368,6 @@ else
   sudo add-apt-repository ppa:fish-shell/release-3 -y
   sudo apt-fast update
   sudo apt-fast -y install fish
-  { set +x ; } 2>/dev/null
-fi
-
-COUNTER=`expr $COUNTER + 1`
-
-# === INSTALL asdf ===
-
-MSG="INSTALL asdf"
-EXIST_CMD="" && bash -c "which asdf >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
-else
-  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  set -x
-
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
-  # fish config
-  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/config.fish
-  
-  # fish completions
-  mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-
-  { set +x ; } 2>/dev/null
-fi
-
-COUNTER=`expr $COUNTER + 1`
-
-# === INSTALL docker ===
-
-MSG="INSTALL docker"
-EXIST_CMD="" && bash -c "which docker >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $MODE -le 0 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
-else
-  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  set -x
-
-  sudo apt-fast -y install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
-  sudo apt-fast update
-  sudo apt-fast -y install \
-    docker-ce \
-    docker-ce-cli \
-    containerd.io \
-    docker-compose-plugin
-
-  sudo docker run hello-world
-
   { set +x ; } 2>/dev/null
 fi
 
@@ -503,9 +448,86 @@ fi
 
 COUNTER=`expr $COUNTER + 1`
 
+# === INSTALL asdf ===
+
+MSG="INSTALL asdf"
+EXIST_CMD="" && bash -c "which asdf >/dev/null 2>&1" || EXIST_CMD=$?
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+elif [ $EXIST_CMD -ne 1 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
+  # fish config
+  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/config.fish
+  
+  # fish completions
+  mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# === INSTALL docker ===
+
+MSG="INSTALL docker"
+EXIST_CMD="" && bash -c "which docker >/dev/null 2>&1" || EXIST_CMD=$?
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+elif [ $EXIST_CMD -ne 1 ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+
+  sudo apt-fast -y install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  sudo apt-fast update
+  sudo apt-fast -y install \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-compose-plugin
+
+  sudo docker run hello-world
+
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# === INSTALL modern ===
+
+MSG="INSTALL modern command"
+if [ $MODE -le MODE_ESSENTIAL ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (optional)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  sudo apt-fast install exa bat silversearcher-ag fd-find hexyl duf
+  sudo snap install dust procs
+
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
 # === CLEAN STEP ===
 MSG="clean"
-if [ $MODE -le 0 ]; then
+if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
