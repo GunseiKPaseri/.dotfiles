@@ -82,10 +82,10 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL apt-fast [sudo] ===
 MSG="INSTALL apt-fast"
-EXIST_CMD="" && bash -c "which apt-fast >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
+elif type "apt-fast" > /dev/null 2>&1; then
+  # exist apt-fast
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -136,10 +136,10 @@ COUNTER=`expr $COUNTER + 1`
 # === set hide needrestart [sudo] ===
 MSG="Hide needrestart"
 
-EXIST_CMD="" && bash -c "which needrestart >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -eq 1 ]; then
+elif !(type "needrestart" > /dev/null 2>&1); then
+  # unexist needrestart
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (No command needrestart)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -216,12 +216,14 @@ if [ $MODE -le MODE_WITHOUTSUDO ]; then
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 
-  EXIST_CMD="" && bash -c "which pip3 >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ $EXIST_CMD -eq 1 ]; then
+  if !(type "pip3" > /dev/null 2>&1); then
+    # unexist pip3
+    set -x
     sudo apt-fast -y install python3-pip
     pip3 install --upgrade pip
     export PATH="$PATH:$HOME/.local/bin"
     echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> $HOME/.bashrc
+    { set +x ; } 2>/dev/null
   fi
   set -x
   # install python tool
@@ -286,8 +288,8 @@ COUNTER=`expr $COUNTER + 1`
 # == CLONE dotfiles.git ===
 MSG="CLONE dotfiles.git"
 
-EXIST_CMD="" && bash -c "which git >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $EXIST_CMD -eq 1 ]; then
+if !(type "git" > /dev/null 2>&1); then
+  # unexist git
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -303,8 +305,8 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL brew [sudo] ===
 MSG="INSTALL brew"
-EXIST_CMD="" && bash -c "which brew >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $EXIST_CMD -eq 1 ]; then
+if type "brew" > /dev/null 2>&1; then
+  # exist brew
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -318,15 +320,15 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL vim ===
 MSG="INSTALL vim"
-EXIST_CMD="" && bash -c "which vim >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -eq 1 ]; then
+elif type "vim" > /dev/null 2>&1; then
+  # exist vim
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  EXIST_CMD="" && bash -c "which gnome-shell >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ $EXIST_CMD -ne 1 ]; then
+  if type "gnome-shell" > /dev/null 2>&1; then
+    # exist gnome-shell
     set -x
     sudo apt-fast -y install vim-gnome
     { set +x ; } 2>/dev/null
@@ -341,10 +343,10 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL tmux ===
 MSG="INSTALL tmux"
-EXIST_CMD="" && bash -c "which tmux >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
+elif type "tmux" > /dev/null 2>&1; then
+  # exist tmux
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -357,10 +359,10 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fish ===
 MSG="INSTALL fish"
-EXIST_CMD="" && bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
+elif type "fish" > /dev/null 2>&1; then
+  # exist fish
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -375,48 +377,68 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fisher ===
 MSG="INSTALL fisher(fish package manager)"
-EXIST_CMD="" && bash -c "which fish >/dev/null 2>&1" || EXIST_CMD=$?
-if [ $EXIST_CMD -ne 1 ]; then
+if !(type "fish" > /dev/null 2>&1); then
+  # unexist fish
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need fish)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
-  fish -c "curl -sL git.io/fisher | source && fisher update"
+  fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
   { set +x ; } 2>/dev/null
 
-  # === INSTALL bobthefish ===
+  # === INSTALL styling ===
+
+  printf "${COLOR_YELLOW} If you want to install bobthefish or etc, need 'nerdfont'"
+  printf " (for example , ) \n"
+  YN_SELECTOR=""
+  printf "install nerd font? (if you access via ssh, needn't)[y/N]: ${COLOR_OFF}"
+  case "${YN_SELECTOR}" in
+    [Yy]* )
+      set -x
+      sudo apt-fast -y install unzip
+      curl -L --output "$TMPDIR/HackGen.zip" https://github.com/yuru7/HackGen/releases/download/v2.8.0/HackGen_NF_v2.8.0.zip
+      unzip $TMPDIR/HackGen.zip -d $TMPDIR/HackGen
+      mkdir -p $HOME/.local/share/fonts
+      cp $TMPDIR/HackGen/HackGen_NF_v2.8.0/*.ttf $HOME/.local/share/fonts
+      { set +x ; } 2>/dev/null
+      ;;
+  esac
+
 
   FISHMODE_SELECTOR=""
   while :
   do
-    printf "${COLOR_YELLOW}SELECT fish font mode\n"
-    printf "    default : ~> \n"
-    printf "    nerd    : ~  (~|>)\n"
-    printf "${COLOR_YELLOW}[default/nerd]: ${COLOR_OFF}"
+    printf "${COLOR_YELLOW}SELECT fish style\n"
+    printf "    default   : ~ (main > \n"
+    printf "    bobthefish: ~  main  (~|>)\n"
+    printf "    starship  : on  via x.x.x\n"
+    printf "${COLOR_YELLOW}[default/bobthefish/starship]: ${COLOR_OFF}"
     read FISHMODE_SELECTOR
     case "${FISHMODE_SELECTOR}" in
       "default" )
         break
         ;;
-      "nerd" )
-        YN_SELECTOR=""
-        printf "${COLOR_YELLOW}install font? (if you access via ssh, needn't)[y/N]: ${COLOR_OFF}"
-        read YN_SELECTOR
-        case "${YN_SELECTOR}" in
-          [Yy]* )
-            set -x
-            sudo apt-fast -y install unzip
-            curl -L --output "$TMPDIR/HackGen.zip" https://github.com/yuru7/HackGen/releases/download/v2.8.0/HackGen_NF_v2.8.0.zip
-            unzip $TMPDIR/HackGen.zip -d $TMPDIR/HackGen
-            mkdir -p $HOME/.local/share/fonts
-            cp $TMPDIR/HackGen/HackGen_NF_v2.8.0/*.ttf $HOME/.local/share/fonts
-            { set +x ; } 2>/dev/null
-            ;;
-        esac
-
+      "bobthefish" )
         printf "${COLOR_CYAN}Install bobthefish${COLOR_OFF}\n"
         set -x
         fish -c "fisher install oh-my-fish/theme-bobthefish"
+        { set +x ; } 2>/dev/null
+        break
+        ;;
+      "starship" )
+        printf "${COLOR_CYAN}Install starship${COLOR_OFF}\n"
+        if type "brew" > /dev/null 2>&1; then
+          # exist brew
+          set -x
+          brew install starship
+          { set +x ; } 2>/dev/null
+        else
+          set -x
+          curl -sS https://starship.rs/install.sh | sh
+          { set +x ; } 2>/dev/null
+        fi
+        set -x
+        echo "starship init fish | source" > ~/.config/fish/fromdotfiles/starship.fish
         { set +x ; } 2>/dev/null
         break
         ;;
@@ -425,8 +447,8 @@ else
 
   # === INSTALL peco ===
 
-  EXIST_CMD="" && bash -c "which brew >/dev/null 2>&1" || EXIST_CMD=$?
-  if [ $EXIST_CMD -ne 1 ]; then
+  if !(type "brew" > /dev/null 2>&1); then
+    # unexist brew
     printf "Skip Install peco (need brew)\n"
   else
     printf "${COLOR_CYAN}Install peco${COLOR_OFF}\n"
@@ -440,9 +462,9 @@ else
   sudo apt-fast -y install tar unrar zip gzip
   fish -c "fisher install oh-my-fish/plugin-extract"
 
-  fish -c "fisher install gitignore"
+  fish -c "fisher install fisherman/gitignore"
 
-  fish -c "fisher install spin"
+  fish -c "fisher install fisherman/spin"
 
 fi
 
@@ -451,10 +473,10 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL asdf ===
 
 MSG="INSTALL asdf"
-EXIST_CMD="" && bash -c "which asdf >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
+elif type "asdf" > /dev/null 2>&1; then
+  # exist asdf
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -475,10 +497,10 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL docker ===
 
 MSG="INSTALL docker"
-EXIST_CMD="" && bash -c "which docker >/dev/null 2>&1" || EXIST_CMD=$?
 if [ $MODE -le MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif [ $EXIST_CMD -ne 1 ]; then
+elif type "docker" > /dev/null 2>&1; then
+  # exist docker
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"

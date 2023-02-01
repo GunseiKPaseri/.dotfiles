@@ -34,6 +34,7 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/
 - pip3とapt-selectの導入
 - build-essentialの導入
 - gitの導入
+- brewの導入
 - vimの導入
 - tmuxの導入
 - fishの導入
@@ -42,7 +43,9 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/
     - extract
     - gitignore
     - spin
-    - bobthefish
+  - シェルスタイルの設定
+    - HackGenNerdのインストール(optional)
+    - bobthefishまたらstarship(optional)
 - asdfの導入
 - dockerの導入
 
