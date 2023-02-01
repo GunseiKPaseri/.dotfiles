@@ -26,7 +26,7 @@ COLOR_OFF="${ESC}${ESCEND}"
 MODE_SELECTOR=""
 MODE_WITHOUTSUDO=0
 MODE_ESSENTIAL=1
-$MODE_FULL=2
+MODE_FULL=2
 while :
 do
   printf "${COLOR_YELLOW}SELECT MODE [withoutsudo/essential/full]: ${COLOR_OFF}"
