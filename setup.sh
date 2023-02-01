@@ -439,7 +439,7 @@ else
           { set +x ; } 2>/dev/null
         fi
         set -x
-        echo "starship init fish | source" > ~/.config/fish/fromdotfiles/starship.fish
+        echo "starship init fish | source" > ~/.config/fish/conf.d/starship.fish
         { set +x ; } 2>/dev/null
         break
         ;;
@@ -485,7 +485,7 @@ else
 
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
   # fish config
-  echo -e "source ~/.asdf/asdf.fish" > $HOME/.config/fish/fromdotfiles/asdf.fish
+  echo "source ~/.asdf/asdf.fish" > $HOME/.config/fish/conf.d/asdf.fish
   
   # fish completions
   mkdir -p ~/.config/fish/completions
@@ -541,8 +541,8 @@ if [ $MODE -le $MODE_ESSENTIAL ]; then
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
-  sudo apt-fast install exa bat silversearcher-ag fd-find hexyl duf
-  sudo snap install dust procs
+  sudo apt-fast -y install exa bat silversearcher-ag fd-find hexyl duf
+  sudo snap -y install dust procs
 
   { set +x ; } 2>/dev/null
 fi
