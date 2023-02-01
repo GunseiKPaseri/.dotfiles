@@ -260,6 +260,8 @@ else
   sudo apt-fast -y install build-essential
 fi
 
+COUNTER=`expr $COUNTER + 1`
+
 # === INSTALL git [sudo] ===
 MSG="INSTALL git"
 if [ $MODE -le $MODE_WITHOUTSUDO ]; then
@@ -483,7 +485,7 @@ else
 
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
   # fish config
-  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/fromdotfiles/asdf.fish
+  echo -e "source ~/.asdf/asdf.fish" > $HOME/.config/fish/fromdotfiles/asdf.fish
   
   # fish completions
   mkdir -p ~/.config/fish/completions

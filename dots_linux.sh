@@ -16,6 +16,6 @@ ln -sf ~/dotfiles/d/.minttyrc ~/.minttyrc
 unlink ~/.bash_profile 2>/dev/null
 ln -sf ~/dotfiles/d/.bash_profile ~/.bash_profile
 
-mkdir -p ~/.config/fish
-unlink ~/.config/fish/fromdotfiles 2>/dev/null
-ln -sf ~/dotfiles/d/fish ~/.config/fish/fromdotfiles
+mkdir -p ~/.config/fish/fromdotfiles
+unlink ~/.config/fish/fromdotfiles/user 2>/dev/null
+ln -sf ~/dotfiles/d/fish ~/.config/fish/fromdotfiles/user
