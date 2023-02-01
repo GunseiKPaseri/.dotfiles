@@ -2,7 +2,24 @@
 
 ## 使い方
 
-おおよそ以下で動作する
+### WSLの場合
+
+WSLの場合はWSL内の`/etc/wsl.conf`を管理者権限で書き換え
+
+```toml:/etc/wsl.conf
+[boot]
+systemd=true
+```
+
+Windows側で再起動
+
+```ps1
+wsl --shutdown
+```
+
+### 共通
+
+以下を実行
 
 ```sh
 # sudo snap install curl

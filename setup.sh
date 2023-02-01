@@ -26,24 +26,24 @@ COLOR_OFF="${ESC}${ESCEND}"
 MODE_SELECTOR=""
 MODE_WITHOUTSUDO=0
 MODE_ESSENTIAL=1
-MODE_FULL=2
+$MODE_FULL=2
 while :
 do
   printf "${COLOR_YELLOW}SELECT MODE [withoutsudo/essential/full]: ${COLOR_OFF}"
   read MODE_SELECTOR
   case "${MODE_SELECTOR}" in
     "withoutsudo" )
-      MODE=MODE_WITHOUTSUDO
+      MODE=$MODE_WITHOUTSUDO
       printf "${COLOR_CYAN}Run only tasks that do not require sudo.${COLOR_OFF}\n"
       break
       ;;
     "essential" )
-      MODE=MODE_ESSENTIAL
+      MODE=$MODE_ESSENTIAL
       printf "${COLOR_CYAN}Run essential tasks.${COLOR_OFF}\n"
       break
       ;;
     "full" )
-      MODE=MODE_FULL
+      MODE=$MODE_FULL
       printf "${COLOR_CYAN}Run all tasks.${COLOR_OFF}\n"
       break
       ;;
@@ -53,7 +53,7 @@ done
 # === SET APT SERVER FIRST TIME [sudo]
 MSG="SET apt server to Yamagata Univ first time."
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -69,7 +69,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT UPDATE [sudo] ===
 MSG="apt update"
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -82,7 +82,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL apt-fast [sudo] ===
 MSG="INSTALL apt-fast"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "apt-fast" > /dev/null 2>&1; then
   # exist apt-fast
@@ -102,7 +102,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT INSTALL CORE [sudo] ===
 MSG="apt install core package"
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -121,7 +121,7 @@ COUNTER=`expr $COUNTER + 1`
 # === APT UPGRADE [sudo] ===
 MSG="apt upgrade"
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -136,7 +136,7 @@ COUNTER=`expr $COUNTER + 1`
 # === set hide needrestart [sudo] ===
 MSG="Hide needrestart"
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif !(type "needrestart" > /dev/null 2>&1); then
   # unexist needrestart
@@ -159,7 +159,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === Select Japanese [sudo] ===
 MSG="Set Japanese"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -197,7 +197,7 @@ COUNTER=`expr $COUNTER + 1`
 
 MSG="Set NTP"
 
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -211,7 +211,7 @@ fi
 
 # === INSTALL pip3 & apt-selector [sudo] ===
 MSG="INSTALL pip3 && apt-select"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -251,7 +251,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL build-essential [sudo] ===
 MSG="INSTALL build-essential"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -262,7 +262,7 @@ fi
 
 # === INSTALL git [sudo] ===
 MSG="INSTALL git"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -320,7 +320,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL vim ===
 MSG="INSTALL vim"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "vim" > /dev/null 2>&1; then
   # exist vim
@@ -343,7 +343,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL tmux ===
 MSG="INSTALL tmux"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "tmux" > /dev/null 2>&1; then
   # exist tmux
@@ -359,7 +359,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === INSTALL fish ===
 MSG="INSTALL fish"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "fish" > /dev/null 2>&1; then
   # exist fish
@@ -403,7 +403,6 @@ else
       { set +x ; } 2>/dev/null
       ;;
   esac
-
 
   FISHMODE_SELECTOR=""
   while :
@@ -473,7 +472,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL asdf ===
 
 MSG="INSTALL asdf"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "asdf" > /dev/null 2>&1; then
   # exist asdf
@@ -484,10 +483,11 @@ else
 
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
   # fish config
-  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/config.fish
+  echo -e "\nsource ~/.asdf/asdf.fish" >> $HOME/.config/fish/fromdotfiles/asdf.fish
   
   # fish completions
-  mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+  mkdir -p ~/.config/fish/completions
+  ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 
   { set +x ; } 2>/dev/null
 fi
@@ -497,7 +497,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL docker ===
 
 MSG="INSTALL docker"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 elif type "docker" > /dev/null 2>&1; then
   # exist docker
@@ -534,7 +534,7 @@ COUNTER=`expr $COUNTER + 1`
 # === INSTALL modern ===
 
 MSG="INSTALL modern command"
-if [ $MODE -le MODE_ESSENTIAL ]; then
+if [ $MODE -le $MODE_ESSENTIAL ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (optional)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
@@ -549,7 +549,7 @@ COUNTER=`expr $COUNTER + 1`
 
 # === CLEAN STEP ===
 MSG="clean"
-if [ $MODE -le MODE_WITHOUTSUDO ]; then
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
