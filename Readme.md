@@ -23,7 +23,7 @@ wsl --shutdown
 
 ```sh
 # sudo snap install curl
-bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/dotfiles/main/setup.sh )"
+bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles/main/setup.sh )"
 ```
 
 ## 動作確認

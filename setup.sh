@@ -286,7 +286,7 @@ fi
 COUNTER=`expr $COUNTER + 1`
 
 # == CLONE dotfiles.git ===
-MSG="CLONE dotfiles.git"
+MSG="CLONE .dotfiles.git"
 
 if !(type "git" > /dev/null 2>&1); then
   # unexist git
@@ -295,9 +295,9 @@ else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
   cd ~
-  rm -rf ./dotfiles
-  git clone https://github.com/GunseiKPaseri/dotfiles.git
-  bash ./dotfiles/dots_linux.sh
+  rm -rf ./.dotfiles
+  git clone https://github.com/GunseiKPaseri/.dotfiles.git
+  bash ./.dotfiles/dots_linux.sh
   { set +x ; } 2>/dev/null
 fi
 
