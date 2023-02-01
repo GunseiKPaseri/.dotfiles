@@ -528,6 +528,11 @@ else
 
   sudo docker run hello-world
 
+  # locally
+  sudo groupadd docker
+  sudo gpasswd -a $USER docker
+  sudo systemctl restart docker
+
   { set +x ; } 2>/dev/null
 fi
 
