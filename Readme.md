@@ -17,6 +17,8 @@ Windows側で再起動
 wsl --shutdown
 ```
 
+実行後個別にdockerを入れる必要あり
+
 ### 共通
 
 以下を実行
@@ -30,6 +32,7 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 
 - ubuntu(Server) 22.04.1
 - ubuntu(Desktop) 22.04
+- ubuntu(WSL) 22.04.1
 
 ## 行われる設定
 

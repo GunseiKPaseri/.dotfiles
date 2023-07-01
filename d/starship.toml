@@ -1,0 +1,25 @@
+[character]
+error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold green)"
+
+[directory]
+truncation_length = 100
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+[custom.arch]
+command = "uname -m"
+when = """ !(test $(uname -m) = "x86_64") """
+style = "bold yellow"
+format = "[$output]($style)"
+
+[docker_context]
+format = "via [ $context](blue bold)"
+
+[git_branch]
+symbol = " "
+
+[time]
+disabled = false
+format = '🕙[\[ $time \]]($style) '
+time_format = '%T'
