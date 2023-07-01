@@ -68,7 +68,7 @@ augroup MyAutoCmd
   autocmd!
 augroup eEND
 
-if v:version >= 800
+if v:version >= 802
   " nがインストールされるディレクトリの指定
   let s:dein_dir = expand('~/.cache/dein') "<- dein によってプラグインがインストールされるディレクトリ ##########
   let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
@@ -114,4 +114,10 @@ endif
 " シンタックスハイライトの有効化
 syntax enable
 
- 
+" airline 設定
+let g:airline_theme = 'minimalist'
+let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" nmap <C-p> <Plug>AirlineSelectPrevTab
+" nmap <C-n> <Plug>AirlineSelectNextTab
+

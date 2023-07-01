@@ -3,4 +3,12 @@ repo = 'jacoborus/tender.vim'
 hook_add = '''
   au MyAutoCmd VimEnter * nested colorscheme tender
 '''
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
 
