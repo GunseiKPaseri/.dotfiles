@@ -55,6 +55,7 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 - build-essentialの導入
 - gitの導入
 - brewの導入
+- chezmoiによるdotfileの設定
 - vimの導入
 - tmuxの導入
 - fishの導入

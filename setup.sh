@@ -287,24 +287,6 @@ fi
 
 COUNTER=`expr $COUNTER + 1`
 
-# == CLONE dotfiles.git ===
-MSG="CLONE .dotfiles.git"
-
-if !(type "git" > /dev/null 2>&1); then
-  # unexist git
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
-else
-  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
-  set -x
-  cd ~
-  rm -rf ./.dotfiles
-  git clone https://github.com/GunseiKPaseri/.dotfiles.git
-  bash ./.dotfiles/dots_linux.sh
-  { set +x ; } 2>/dev/null
-fi
-
-COUNTER=`expr $COUNTER + 1`
-
 # === INSTALL brew [sudo] ===
 MSG="INSTALL brew"
 if type "brew" > /dev/null 2>&1; then
@@ -316,6 +298,23 @@ else
   echo '# Set PATH, MANPATH, etc., for Homebrew.\n' >> $HOME/.profile
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+COUNTER=`expr $COUNTER + 1`
+
+# == CLONE dotfiles.git ===
+MSG="CLONE .dotfiles.git"
+
+if !(type "git" > /dev/null 2>&1); then
+  # unexist git
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (need git command)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  brew install chezmoi
+  chezmoi init git@github.com:GunseiKPaseri/.dotfiles.git
+  chezmoi apply
+  { set +x ; } 2>/dev/null
 fi
 
 COUNTER=`expr $COUNTER + 1`
