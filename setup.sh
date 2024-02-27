@@ -358,118 +358,53 @@ fi
 
 COUNTER=`expr $COUNTER + 1`
 
-# === INSTALL fish ===
-MSG="INSTALL fish"
+# === INSTALL zsh ===
+MSG="INSTALL zsh"
 if [ $MODE -le $MODE_WITHOUTSUDO ]; then
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
-elif type "fish" > /dev/null 2>&1; then
-  # exist fish
+elif type "zsh" > /dev/null 2>&1; then
+  # exist zsh
   printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
-  sudo add-apt-repository ppa:fish-shell/release-3 -y
-  sudo apt-fast update
-  sudo apt-fast -y install fish
+  sudo apt-fast -y install zsh
   { set +x ; } 2>/dev/null
 fi
 
 COUNTER=`expr $COUNTER + 1`
 
-# === INSTALL fisher ===
-MSG="INSTALL fisher(fish package manager)"
-if !(type "fish" > /dev/null 2>&1); then
-  # unexist fish
-  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need fish)\n"
+# === INSTALL sheldon ===
+MSG="INSTALL sheldon"
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+elif type "sheldon" > /dev/null 2>&1; then
+  # exist sheldon
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
 else
   printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
   set -x
-  fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
+  brew install sheldon
   { set +x ; } 2>/dev/null
-
-  # === INSTALL styling ===
-
-  printf "${COLOR_YELLOW} If you want to install bobthefish or etc, need 'nerdfont'"
-  printf " (for example , ) \n"
-  YN_SELECTOR=""
-  printf "install nerd font? (if you access via ssh, needn't)[y/N]: ${COLOR_OFF}"
-  case "${YN_SELECTOR}" in
-    [Yy]* )
-      set -x
-      sudo apt-fast -y install unzip
-      curl -L --output "$TMPDIR/HackGen.zip" https://github.com/yuru7/HackGen/releases/download/v2.8.0/HackGen_NF_v2.8.0.zip
-      unzip $TMPDIR/HackGen.zip -d $TMPDIR/HackGen
-      mkdir -p $HOME/.local/share/fonts
-      cp $TMPDIR/HackGen/HackGen_NF_v2.8.0/*.ttf $HOME/.local/share/fonts
-      { set +x ; } 2>/dev/null
-      ;;
-  esac
-
-  FISHMODE_SELECTOR=""
-  while :
-  do
-    printf "${COLOR_YELLOW}SELECT fish style\n"
-    printf "    default   : ~ (main > \n"
-    printf "    bobthefish: ~  main  (~|>)\n"
-    printf "    starship  : on  via x.x.x\n"
-    printf "${COLOR_YELLOW}[default/bobthefish/starship]: ${COLOR_OFF}"
-    read FISHMODE_SELECTOR
-    case "${FISHMODE_SELECTOR}" in
-      "default" )
-        break
-        ;;
-      "bobthefish" )
-        printf "${COLOR_CYAN}Install bobthefish${COLOR_OFF}\n"
-        set -x
-        fish -c "fisher install oh-my-fish/theme-bobthefish"
-        { set +x ; } 2>/dev/null
-        break
-        ;;
-      "starship" )
-        printf "${COLOR_CYAN}Install starship${COLOR_OFF}\n"
-        if type "brew" > /dev/null 2>&1; then
-          # exist brew
-          set -x
-          brew install starship
-          { set +x ; } 2>/dev/null
-        else
-          set -x
-          curl -sS https://starship.rs/install.sh | sh
-          { set +x ; } 2>/dev/null
-        fi
-        set -x
-        echo "starship init fish | source" > ~/.config/fish/conf.d/starship.fish
-        { set +x ; } 2>/dev/null
-        break
-        ;;
-    esac
-  done
-
-  # === INSTALL peco ===
-
-  if !(type "brew" > /dev/null 2>&1); then
-    # unexist brew
-    printf "Skip Install peco (need brew)\n"
-  else
-    printf "${COLOR_CYAN}Install peco${COLOR_OFF}\n"
-    set -x
-    brew install peco
-    fish -c "fisher install oh-my-fish/plugin-peco"
-    { set +x ; } 2>/dev/null
-  fi
-
-  # === plugin ===
-  sudo apt-fast -y install tar unrar zip gzip
-  fish -c "fisher install oh-my-fish/plugin-extract"
-
-  fish -c "fisher install fisherman/gitignore"
-
-  fish -c "fisher install fisherman/spin"
-
 fi
 
 COUNTER=`expr $COUNTER + 1`
 
+# === INSTALL sheldon ===
+MSG="INSTALL peco"
+if [ $MODE -le $MODE_WITHOUTSUDO ]; then
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (Need sudo)\n"
+elif type "peco" > /dev/null 2>&1; then
+  # exist sheldon
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  brew install peco
+  { set +x ; } 2>/dev/null
+fi
+
+COUNTER=`expr $COUNTER + 1`
 # === INSTALL asdf ===
 
 MSG="INSTALL asdf"
