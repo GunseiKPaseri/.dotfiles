@@ -58,15 +58,9 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 - chezmoiによるdotfileの設定
 - vimの導入
 - tmuxの導入
-- fishの導入
-  - fisher各種プラグインの導入
-    - peco
-    - extract
-    - gitignore
-    - spin
-  - シェルスタイルの設定
-    - HackGenNerdのインストール(optional)
-    - bobthefishまたらstarship(optional)
+- zshの導入
+  - sheldonの導入
+  - pecoの導入
 - asdfの導入
 - dockerの導入
 
@@ -75,12 +69,14 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 - モダンコマンドの導入
   - ag (grep)
   - batcat (cat)
+  - difft (diff)
   - duf (df)
   - dust (du)
   - exa (ls)
-  - hexyl (od)
-  - procs (ps)
   - fd (find)
+  - hexyl (od)
+  - magika (file)
+  - procs (ps)
 
 ## 別途行うべき設定
 

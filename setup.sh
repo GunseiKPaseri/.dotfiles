@@ -482,6 +482,13 @@ else
   set -x
   sudo apt-fast -y install exa bat silversearcher-ag fd-find hexyl duf
   sudo snap -y install dust procs
+  brew install difftastic
+  # config difft default
+  git config --global diff.tool difftastic
+  git config --global difftool.prompt false
+  git config --global difftool.difftastic.cmd 'difftastic $LOCAL $REMOTE'
+  git config --global pager.difftool true
+  pip3 install magika
 
   { set +x ; } 2>/dev/null
 fi
