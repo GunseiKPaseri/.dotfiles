@@ -77,12 +77,13 @@ alias dea='docker exec -it $(docker ps | peco | cut -d " " -f 1) /bin/ash'
 # 
 alias peco_kill="ps ax -o pid,time,command | peco --query \"$LBUFFER\" | awk '{print $1}' | xargs kill"
 
-# SSHの秘密鍵をロードする
-/usr/bin/keychain -q --nogui $HOME/.ssh/id_ed25519
-source $HOME/.keychain/$HOST-sh
+# miseの有効化
+eval "$(~/.local/bin/mise activate zsh)"
 
+# starship(リッチコマンドライン)の有効化
 eval "$(starship init zsh)"
 
-eval "$(rtx activate zsh)"
-
-eval $(opam env)
+# use pip package
+if [[ -d ~/.venv ]]; then
+    . ~/.venv/bin/activate
+fi

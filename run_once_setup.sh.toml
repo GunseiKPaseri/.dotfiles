@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# === SHELL CONFIG ===
+set -e # stop with a error
+set -u # forbidden undefined vars
+
+# === INSTALL vim ===
+MSG="INSTALL vim"
+if type "vim" > /dev/null 2>&1; then
+  # exist vim
+  printf "SKIP ${MSG} (installed)\n"
+else
+  printf "${MSG}\n"
+  if type "gnome-shell" > /dev/null 2>&1; then
+    # exist gnome-shell
+    set -x
+    sudo apt-fast -y install vim-gnome
+    { set +x ; } 2>/dev/null
+  else
+    set -x
+    sudo apt-fast -y install vim-gtk3
+    { set +x ; } 2>/dev/null
+  fi
+fi
+
+set -x
+sudo apt-fast -y install tmux zsh eza bat silversearcher-ag fd-find hexyl duf
+sudo snap install dust
+sudo snap install procs
+brew install sheldon peco difftastic starship
+pip3 install magika
+git config --global diff.tool difftastic
+git config --global difftool.prompt false
+git config --global difftool.difftastic.cmd 'difftastic $LOCAL $REMOTE'
+git config --global pager.difftool true
+{ set +x ; } 2>/dev/null
+
+# === INSTALL docker ===
+
+MSG="INSTALL docker"
+if type "docker" > /dev/null 2>&1; then
+  # exist docker
+  printf "SKIP ${MSG} (installed)\n"
+else
+  printf "${MSG}}\n"
+  set -x
+
+  sudo apt-fast -y install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  sudo apt-fast update
+  sudo apt-fast -y install \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-compose-plugin
+
+  sudo docker run hello-world
+
+  # locally
+  sudo groupadd docker
+  sudo gpasswd -a $USER docker
+  sudo systemctl restart docker
+
+  { set +x ; } 2>/dev/null
+fi
+
+# === CLEAN STEP ===
+
+set -x
+sudo apt-fast -y autoremove
+sudo apt-fast -y clean
+{ set +x ; } 2>/dev/null
+# === set thisfile ===
+
+echo "You Should Restart."

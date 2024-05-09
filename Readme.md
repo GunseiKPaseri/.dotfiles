@@ -25,7 +25,7 @@ wsl --shutdown
 
 ```sh
 # sudo snap install curl
-bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles/main/setup.sh )"
+bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles/main/linux_setup.sh )"
 ```
 
 ## 動作確認
@@ -41,7 +41,6 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 - このリポジトリのクローン
 - brewの導入
 
-### essential
 
 - apt serverの変更
 - apt update
@@ -51,38 +50,39 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
 - needrestartの非表示化
 - 日本語化
 - NTP設定
-- pip3とapt-selectの導入
+- pip3(.venv)の導入
 - build-essentialの導入
-- gitの導入
 - brewの導入
+- gitの導入
+
 - chezmoiによるdotfileの設定
+
 - vimの導入
 - tmuxの導入
+- mise(>asdf)の導入
 - zshの導入
   - sheldonの導入
   - pecoの導入
-- asdfの導入
 - dockerの導入
 
-### full
-
-- モダンコマンドの導入
-  - ag (grep)
-  - batcat (cat)
-  - difft (diff)
-  - duf (df)
-  - dust (du)
-  - exa (ls)
-  - fd (find)
-  - hexyl (od)
-  - magika (file)
-  - procs (ps)
+- その他モダンコマンドの導入
+  - ag (>grep)
+  - batcat (>cat)
+  - difft (>diff)
+  - duf (>df)
+  - dust (>du)
+  - eza (>ls)
+  - fd (>find)
+  - hexyl (>od)
+  - magika (>file)
+  - procs (>ps)
+  - jq
 
 ## 別途行うべき設定
 
 ### git
 
-- [ ] `git config --global user.name <YOUR NAME>` `git config --global user.email <YOUR EMAIL>`
+- [ ] `git config --global user.name GunseiKPaseri` `git config --global user.email GunseiKPaseri@gmail.com`
 
 ### IME
 

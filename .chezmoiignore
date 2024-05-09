@@ -2,7 +2,7 @@ d/
 Readme.md
 desktop.ini
 dots_win.bat
-setup.sh
+linux_setup.sh
 winbin
 winbin/acmd.bat
 
