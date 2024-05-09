@@ -215,12 +215,30 @@ esac
 
 COUNTER=`expr $COUNTER + 1`
 
+# === ISNTALL mise ===
+MSG="INSTALL mise"
+printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+if type "mise" > /dev/null 2>&1; then
+  # exist mise
+  printf "[${COUNTER}/${STEP_COUNT}] SKIP ${MSG} (installed)\n"
+else
+  printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
+  set -x
+  brew install mise
+  mise use -g usage
+  { set +x ; } 2>/dev/null
+fi
+COUNTER=`expr $COUNTER + 1`
+
 # === INSTALL chezmoi ===
+MSG="INSTALL chezmoi"
 
 printf "[${COUNTER}/${STEP_COUNT}] ${COLOR_CYAN}${MSG}${COLOR_OFF}\n"
 set -x
 brew install chezmoi
 { set +x ; } 2>/dev/null
+
+COUNTER=`expr $COUNTER + 1`
 
 # === CLEAN STEP ===
 MSG="clean"

@@ -57,7 +57,7 @@ alias peco_kill="ps ax -o pid,time,command | peco --query \"$LBUFFER\" | awk '{p
 alias la='eza -lha'
 
 # miseの有効化
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
 # starship(リッチコマンドライン)の有効化
 eval "$(starship init zsh)"
