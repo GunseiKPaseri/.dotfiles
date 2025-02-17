@@ -27,7 +27,7 @@ set -x
 sudo apt-fast -y install tmux zsh eza bat silversearcher-ag fd-find hexyl duf
 sudo snap install dust
 sudo snap install procs
-brew install sheldon peco difftastic starship
+brew install sheldon peco difftastic starship ripgrep dog
 pip3 install magika
 git config --global diff.tool difftastic
 git config --global difftool.prompt false

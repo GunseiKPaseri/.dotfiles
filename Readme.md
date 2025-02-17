@@ -70,13 +70,15 @@ bash -c "$( curl -fsSL https://raw.githubusercontent.com/GunseiKPaseri/.dotfiles
   - batcat (>cat)
   - difft (>diff)
   - duf (>df)
+  - dog (>dig)
   - dust (>du)
   - eza (>ls)
   - fd (>find)
   - hexyl (>od)
+  - jq
   - magika (>file)
   - procs (>ps)
-  - jq
+  - rg (>grep)
 
 ## 別途行うべき設定
 
