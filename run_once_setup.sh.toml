@@ -31,7 +31,7 @@ brew install sheldon peco difftastic starship ripgrep dog
 pip3 install magika
 git config --global diff.tool difftastic
 git config --global difftool.prompt false
-git config --global difftool.difftastic.cmd 'difftastic $LOCAL $REMOTE'
+git config --global difftool.difftastic.cmd 'difft $LOCAL $REMOTE'
 git config --global pager.difftool true
 { set +x ; } 2>/dev/null
 
